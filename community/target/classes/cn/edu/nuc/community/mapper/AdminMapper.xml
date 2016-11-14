@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.nuc.community.dao.AdminMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.nuc.community.entity.Admin">
+    <id column="ADMIN_ID" jdbcType="DECIMAL" property="adminId" />
+    <result column="ROLE_ID" jdbcType="DECIMAL" property="roleId" />
+    <result column="ADMIN_NAME" jdbcType="VARCHAR" property="adminName" />
+    <result column="ADMIN_PASSWORD" jdbcType="VARCHAR" property="adminPassword" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ADMIN_ID, ROLE_ID, ADMIN_NAME, ADMIN_PASSWORD
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ADMIN
+    where ADMIN_ID = #{adminId,jdbcType=DECIMAL}
+  </select>
+  <select id="selectByName" parameterType="String" resultType="cn.edu.nuc.community.entity.Admin">
+    select 
+    A.ADMIN_ID,A.ADMIN_NAME,A.ADMIN_PASSWORD,R.ROLE_ID,R.ROLE_NAME 
+    from ADMIN A,ROLE R
+    where A.ROLE_ID=R.ROLE_ID AND ADMIN_NAME = #{adminName,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ADMIN
+    where ADMIN_ID = #{adminId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.nuc.community.entity.Admin">
+    insert into ADMIN (ADMIN_ID, ROLE_ID, ADMIN_NAME, 
+      ADMIN_PASSWORD)
+    values (#{adminId,jdbcType=DECIMAL}, #{roleId,jdbcType=DECIMAL}, #{adminName,jdbcType=VARCHAR}, 
+      #{adminPassword,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.nuc.community.entity.Admin">
+    insert into ADMIN
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adminId != null">
+        ADMIN_ID,
+      </if>
+      <if test="roleId != null">
+        ROLE_ID,
+      </if>
+      <if test="adminName != null">
+        ADMIN_NAME,
+      </if>
+      <if test="adminPassword != null">
+        ADMIN_PASSWORD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adminId != null">
+        #{adminId,jdbcType=DECIMAL},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=DECIMAL},
+      </if>
+      <if test="adminName != null">
+        #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassword != null">
+        #{adminPassword,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.nuc.community.entity.Admin">
+    update ADMIN
+    <set>
+      <if test="roleId != null">
+        ROLE_ID = #{roleId,jdbcType=DECIMAL},
+      </if>
+      <if test="adminName != null">
+        ADMIN_NAME = #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassword != null">
+        ADMIN_PASSWORD = #{adminPassword,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ADMIN_ID = #{adminId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.nuc.community.entity.Admin">
+    update ADMIN
+    set ROLE_ID = #{roleId,jdbcType=DECIMAL},
+      ADMIN_NAME = #{adminName,jdbcType=VARCHAR},
+      ADMIN_PASSWORD = #{adminPassword,jdbcType=VARCHAR}
+    where ADMIN_ID = #{adminId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByAdminName" parameterType="cn.edu.nuc.community.entity.Admin">
+    update ADMIN
+    set ADMIN_NAME = #{adminName,jdbcType=VARCHAR},
+      ADMIN_PASSWORD = #{adminPassword,jdbcType=VARCHAR}
+    where ADMIN_NAME = #{adminName,jdbcType=VARCHAR}
+  </update>
+</mapper>

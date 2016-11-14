@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.nuc.community.dao.OrderMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.nuc.community.entity.Order">
+    <id column="ORDER_ID" jdbcType="DECIMAL" property="orderId" />
+    <result column="LEAGUE_ID" jdbcType="DECIMAL" property="leagueId" />
+    <result column="RINFO_ID" jdbcType="DECIMAL" property="rinfoId" />
+    <result column="USER_ID" jdbcType="DECIMAL" property="userId" />
+    <result column="ORDER_NAME" jdbcType="VARCHAR" property="orderName" />
+    <result column="ORDER_NUMBER" jdbcType="DECIMAL" property="orderNumber" />
+    <result column="ORDER_PRICE" jdbcType="DECIMAL" property="orderPrice" />
+    <result column="ORDER_TIME" jdbcType="TIMESTAMP" property="orderTime" />
+    <result column="ORDER_DESC" jdbcType="VARCHAR" property="orderDesc" />
+    <result column="ORDER_STATE" jdbcType="DECIMAL" property="orderState" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ORDER_ID, LEAGUE_ID, RINFO_ID, USER_ID, ORDER_NAME, ORDER_NUMBER, ORDER_PRICE, ORDER_TIME, 
+    ORDER_DESC, ORDER_STATE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ORDER
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ORDER
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.nuc.community.entity.Order">
+    insert into ORDER (ORDER_ID, LEAGUE_ID, RINFO_ID, 
+      USER_ID, ORDER_NAME, ORDER_NUMBER, 
+      ORDER_PRICE, ORDER_TIME, ORDER_DESC, 
+      ORDER_STATE)
+    values (#{orderId,jdbcType=DECIMAL}, #{leagueId,jdbcType=DECIMAL}, #{rinfoId,jdbcType=DECIMAL}, 
+      #{userId,jdbcType=DECIMAL}, #{orderName,jdbcType=VARCHAR}, #{orderNumber,jdbcType=DECIMAL}, 
+      #{orderPrice,jdbcType=DECIMAL}, #{orderTime,jdbcType=TIMESTAMP}, #{orderDesc,jdbcType=VARCHAR}, 
+      #{orderState,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.nuc.community.entity.Order">
+    insert into ORDER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        ORDER_ID,
+      </if>
+      <if test="leagueId != null">
+        LEAGUE_ID,
+      </if>
+      <if test="rinfoId != null">
+        RINFO_ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="orderName != null">
+        ORDER_NAME,
+      </if>
+      <if test="orderNumber != null">
+        ORDER_NUMBER,
+      </if>
+      <if test="orderPrice != null">
+        ORDER_PRICE,
+      </if>
+      <if test="orderTime != null">
+        ORDER_TIME,
+      </if>
+      <if test="orderDesc != null">
+        ORDER_DESC,
+      </if>
+      <if test="orderState != null">
+        ORDER_STATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="orderId != null">
+        #{orderId,jdbcType=DECIMAL},
+      </if>
+      <if test="leagueId != null">
+        #{leagueId,jdbcType=DECIMAL},
+      </if>
+      <if test="rinfoId != null">
+        #{rinfoId,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderName != null">
+        #{orderName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumber != null">
+        #{orderNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="orderPrice != null">
+        #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderTime != null">
+        #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderDesc != null">
+        #{orderDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="orderState != null">
+        #{orderState,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.nuc.community.entity.Order">
+    update ORDER
+    <set>
+      <if test="leagueId != null">
+        LEAGUE_ID = #{leagueId,jdbcType=DECIMAL},
+      </if>
+      <if test="rinfoId != null">
+        RINFO_ID = #{rinfoId,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderName != null">
+        ORDER_NAME = #{orderName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumber != null">
+        ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="orderPrice != null">
+        ORDER_PRICE = #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orderTime != null">
+        ORDER_TIME = #{orderTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderDesc != null">
+        ORDER_DESC = #{orderDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="orderState != null">
+        ORDER_STATE = #{orderState,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.nuc.community.entity.Order">
+    update ORDER
+    set LEAGUE_ID = #{leagueId,jdbcType=DECIMAL},
+      RINFO_ID = #{rinfoId,jdbcType=DECIMAL},
+      USER_ID = #{userId,jdbcType=DECIMAL},
+      ORDER_NAME = #{orderName,jdbcType=VARCHAR},
+      ORDER_NUMBER = #{orderNumber,jdbcType=DECIMAL},
+      ORDER_PRICE = #{orderPrice,jdbcType=DECIMAL},
+      ORDER_TIME = #{orderTime,jdbcType=TIMESTAMP},
+      ORDER_DESC = #{orderDesc,jdbcType=VARCHAR},
+      ORDER_STATE = #{orderState,jdbcType=DECIMAL}
+    where ORDER_ID = #{orderId,jdbcType=DECIMAL}
+  </update>
+</mapper>

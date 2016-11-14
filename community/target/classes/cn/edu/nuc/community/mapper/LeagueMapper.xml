@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.nuc.community.dao.LeagueMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.nuc.community.entity.League">
+    <id column="LEAGUE_ID" jdbcType="DECIMAL" property="leagueId" />
+    <result column="ROLE_ID" jdbcType="DECIMAL" property="roleId" />
+    <result column="LEAGUE_NAME" jdbcType="VARCHAR" property="leagueName" />
+    <result column="LEAGUE_PASSWORD" jdbcType="VARCHAR" property="leaguePassword" />
+    <result column="LEAGUE_COMPANY" jdbcType="VARCHAR" property="leagueCompany" />
+    <result column="LEAGUE_PHONE" jdbcType="VARCHAR" property="leaguePhone" />
+    <result column="LEAGUE_EMAIL" jdbcType="VARCHAR" property="leagueEmail" />
+    <result column="LEAGUE_STATE" jdbcType="DECIMAL" property="leagueState" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    LEAGUE_ID, ROLE_ID, LEAGUE_NAME, LEAGUE_PASSWORD, LEAGUE_COMPANY, LEAGUE_PHONE, LEAGUE_EMAIL, 
+    LEAGUE_STATE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from LEAGUE
+    where LEAGUE_ID = #{leagueId,jdbcType=DECIMAL}
+  </select>
+  <select id="selectByName" parameterType="String" resultMap="BaseResultMap">
+	   select 
+	    <include refid="Base_Column_List" />
+	    from LEAGUE
+	    where LEAGUE_NAME = #{leagueName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByCompany" parameterType="String" resultMap="BaseResultMap">
+  		select 
+	    <include refid="Base_Column_List" />
+	    from LEAGUE
+	    where LEAGUE_COMPANY = #{leagueCompany,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from LEAGUE
+    where LEAGUE_ID = #{leagueId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.nuc.community.entity.League">
+    insert into LEAGUE (LEAGUE_ID, ROLE_ID, LEAGUE_NAME, 
+      LEAGUE_PASSWORD, LEAGUE_COMPANY, LEAGUE_PHONE, 
+      LEAGUE_EMAIL, LEAGUE_STATE)
+    values (#{leagueId,jdbcType=DECIMAL}, #{roleId,jdbcType=DECIMAL}, #{leagueName,jdbcType=VARCHAR}, 
+      #{leaguePassword,jdbcType=VARCHAR}, #{leagueCompany,jdbcType=VARCHAR}, #{leaguePhone,jdbcType=VARCHAR}, 
+      #{leagueEmail,jdbcType=VARCHAR}, #{leagueState,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.nuc.community.entity.League">
+    insert into LEAGUE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="leagueId != null">
+        LEAGUE_ID,
+      </if>
+      <if test="roleId != null">
+        ROLE_ID,
+      </if>
+      <if test="leagueName != null">
+        LEAGUE_NAME,
+      </if>
+      <if test="leaguePassword != null">
+        LEAGUE_PASSWORD,
+      </if>
+      <if test="leagueCompany != null">
+        LEAGUE_COMPANY,
+      </if>
+      <if test="leaguePhone != null">
+        LEAGUE_PHONE,
+      </if>
+      <if test="leagueEmail != null">
+        LEAGUE_EMAIL,
+      </if>
+      <if test="leagueState != null">
+        LEAGUE_STATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="leagueId != null">
+        #{leagueId,jdbcType=DECIMAL},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=DECIMAL},
+      </if>
+      <if test="leagueName != null">
+        #{leagueName,jdbcType=VARCHAR},
+      </if>
+      <if test="leaguePassword != null">
+        #{leaguePassword,jdbcType=VARCHAR},
+      </if>
+      <if test="leagueCompany != null">
+        #{leagueCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="leaguePhone != null">
+        #{leaguePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="leagueEmail != null">
+        #{leagueEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="leagueState != null">
+        #{leagueState,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.nuc.community.entity.League">
+    update LEAGUE
+    <set>
+      <if test="roleId != null">
+        ROLE_ID = #{roleId,jdbcType=DECIMAL},
+      </if>
+      <if test="leagueName != null">
+        LEAGUE_NAME = #{leagueName,jdbcType=VARCHAR},
+      </if>
+      <if test="leaguePassword != null">
+        LEAGUE_PASSWORD = #{leaguePassword,jdbcType=VARCHAR},
+      </if>
+      <if test="leagueCompany != null">
+        LEAGUE_COMPANY = #{leagueCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="leaguePhone != null">
+        LEAGUE_PHONE = #{leaguePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="leagueEmail != null">
+        LEAGUE_EMAIL = #{leagueEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="leagueState != null">
+        LEAGUE_STATE = #{leagueState,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where LEAGUE_ID = #{leagueId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.nuc.community.entity.League">
+    update LEAGUE
+    set ROLE_ID = #{roleId,jdbcType=DECIMAL},
+      LEAGUE_NAME = #{leagueName,jdbcType=VARCHAR},
+      LEAGUE_PASSWORD = #{leaguePassword,jdbcType=VARCHAR},
+      LEAGUE_COMPANY = #{leagueCompany,jdbcType=VARCHAR},
+      LEAGUE_PHONE = #{leaguePhone,jdbcType=VARCHAR},
+      LEAGUE_EMAIL = #{leagueEmail,jdbcType=VARCHAR},
+      LEAGUE_STATE = #{leagueState,jdbcType=DECIMAL}
+    where LEAGUE_ID = #{leagueId,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="listLeague"   resultMap="BaseResultMap">
+		SELECT * FROM (
+        <![CDATA[
+                  SELECT 
+                  LEAGUE_ID, ROLE_ID, LEAGUE_NAME, LEAGUE_PASSWORD, LEAGUE_COMPANY, LEAGUE_PHONE, LEAGUE_EMAIL, 
+    			  LEAGUE_STATE,
+                  ROWNUM AS CON  FROM LEAGUE
+                     WHERE LEAGUE_STATE=0 AND ROWNUM <= #{pageSize,jdbcType=DECIMAL}
+                  )
+                WHERE CON>=#{startPos,jdbcType=DECIMAL}
+                     ]]>
+  </select>
+  <select id="selectLeague"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT * FROM (
+        <![CDATA[
+                  SELECT 
+                  LEAGUE_ID, ROLE_ID, LEAGUE_NAME, LEAGUE_PASSWORD, LEAGUE_COMPANY, LEAGUE_PHONE, LEAGUE_EMAIL, 
+    			  LEAGUE_STATE,
+                  ROWNUM AS CON  FROM LEAGUE
+                     WHERE LEAGUE_ID=#{leagueId} AND LEAGUE_STATE=0 AND ROWNUM <= #{pageSize,jdbcType=DECIMAL}
+                  )
+                WHERE CON>=#{startPos,jdbcType=DECIMAL}
+                     ]]>
+  </select>
+  <select id="listLeague1"   resultMap="BaseResultMap">
+		SELECT * FROM (
+        <![CDATA[
+                  SELECT 
+                  LEAGUE_ID, ROLE_ID, LEAGUE_NAME, LEAGUE_PASSWORD, LEAGUE_COMPANY, LEAGUE_PHONE, LEAGUE_EMAIL, 
+    			  LEAGUE_STATE,
+                  ROWNUM AS CON  FROM LEAGUE
+                     WHERE LEAGUE_STATE=1 AND ROWNUM <= #{pageSize,jdbcType=DECIMAL}
+                  )
+                WHERE CON>=#{startPos,jdbcType=DECIMAL}
+                     ]]>
+  </select>
+  <select id="selectLeague1"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT * FROM (
+        <![CDATA[
+                  SELECT 
+                  LEAGUE_ID, ROLE_ID, LEAGUE_NAME, LEAGUE_PASSWORD, LEAGUE_COMPANY, LEAGUE_PHONE, LEAGUE_EMAIL, 
+    			  LEAGUE_STATE,
+                  ROWNUM AS CON  FROM LEAGUE
+                     WHERE LEAGUE_ID=#{leagueId} AND LEAGUE_STATE=1 AND ROWNUM <= #{pageSize,jdbcType=DECIMAL}
+                  )
+                WHERE CON>=#{startPos,jdbcType=DECIMAL}
+                     ]]>
+  </select>
+  <select id="getLeagueCount" resultType="long">  
+  SELECT COUNT(*) FROM LEAGUE    
+  </select>
+</mapper>

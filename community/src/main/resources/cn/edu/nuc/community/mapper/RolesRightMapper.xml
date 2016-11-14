@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.nuc.community.dao.RolesRightMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.nuc.community.entity.RolesRight">
+    <id column="ROLERIGHT_ID" jdbcType="DECIMAL" property="rolerightId" />
+    <result column="FUN_ID" jdbcType="DECIMAL" property="funId" />
+    <result column="ROLE_ID" jdbcType="DECIMAL" property="roleId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ROLERIGHT_ID, FUN_ID, ROLE_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ROLESRIGHT
+    where ROLERIGHT_ID = #{rolerightId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ROLESRIGHT
+    where ROLERIGHT_ID = #{rolerightId,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+ 	 delete from ROLESRIGHT
+    where ROLE_ID = #{roleId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.nuc.community.entity.RolesRight">
+    insert into ROLESRIGHT (ROLERIGHT_ID, FUN_ID, ROLE_ID
+      )
+    values (#{rolerightId,jdbcType=DECIMAL}, #{funId,jdbcType=DECIMAL}, #{roleId,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.nuc.community.entity.RolesRight">
+    insert into ROLESRIGHT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rolerightId != null">
+        ROLERIGHT_ID,
+      </if>
+      <if test="funId != null">
+        FUN_ID,
+      </if>
+      <if test="roleId != null">
+        ROLE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rolerightId != null">
+        #{rolerightId,jdbcType=DECIMAL},
+      </if>
+      <if test="funId != null">
+        #{funId,jdbcType=DECIMAL},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.nuc.community.entity.RolesRight">
+    update ROLESRIGHT
+    <set>
+      <if test="funId != null">
+        FUN_ID = #{funId,jdbcType=DECIMAL},
+      </if>
+      <if test="roleId != null">
+        ROLE_ID = #{roleId,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ROLERIGHT_ID = #{rolerightId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.nuc.community.entity.RolesRight">
+    update ROLESRIGHT
+    set FUN_ID = #{funId,jdbcType=DECIMAL},
+      ROLE_ID = #{roleId,jdbcType=DECIMAL}
+    where ROLERIGHT_ID = #{rolerightId,jdbcType=DECIMAL}
+  </update>
+</mapper>

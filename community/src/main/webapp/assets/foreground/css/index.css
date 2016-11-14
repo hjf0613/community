@@ -1,0 +1,129 @@
+
+	
+	
+	
+	a{
+    color:#222222;
+	}
+	a:hover{
+		text-decoration:none;
+		color:#17C0EA;
+	}
+	body{
+		background-color:#F8F8F8;
+	}
+	.body{
+		width:1200px;
+
+		margin:30px auto;
+	}
+	.list-father{
+		height:60px;
+		font-size:18px;
+		line-height:40px;
+		padding-left:50px;
+		background-color:#222222;
+		color:#D8D8D8;
+		position:relative;
+	}
+	.list-father:hover{
+		background-color:#F8F8F8;
+		color:#222222;
+		border:1px solid #222222;
+		border-right:none;
+	}
+	.list-fa:hover .father-hide{
+		 display:block;
+	}
+	.list-ptype{
+		height:400px;
+		
+	}
+	.glyphicon-hand-right{
+		margin-left:100px;
+	}
+	.col-md-9 {
+		padding-left:0px;
+	}
+	.col-md-3{
+		padding-right:0px;
+	}
+	.list-fa{
+		margin:0px;	
+	}
+	.father-hide{
+		width:320px;
+		height:415px;
+		color:#222222;
+		position:absolute;
+		top:0px;
+		left:307px;
+		z-index:1;
+		background-color:#F8F8F8;
+		display:none;
+		border:1px solid #222222;
+		border-left:0px;
+		padding-left:20px;
+		 
+	}
+	
+	.row-one{
+		margin-bottom:30px;
+	}
+	.recbook{
+		height:250px;
+		width:200px;
+		border:1px solid #222222;
+		display:inline-block;
+		margin-left:31px;
+		margin-top:10px;
+	}
+	.recbook a{
+		margin-left:10px;
+		margin-top:10px;
+	}
+	.recbook .saleprice{
+		margin-left:10px;
+		margin-top:10px;
+		color:#CC3300;
+	}
+	.row-3{
+		width:100%;
+		height:120px;
+	}
+	.foot{
+		width:100%;
+		height:200px;
+		background-color:#222222;
+		color:white;
+		margin-top:20px;
+	}
+	.foot a{
+		color:white;
+	}
+	.foot-intruction{
+		width:700px;
+		height:120px;
+		margin:auto auto;
+	}
+	.no-border{
+		border: 0px solid transparent;
+	}
+	
+	.foot-intruction td{
+		font-size:10px;	
+	}
+	.foot-intruction td a{
+		color:#D8D8D8;
+	}
+	.foot-bottom{
+		margin-top:45px;
+		margin-left:70px;
+	}
+	.foot-bottom a{
+		margin:0 25px;
+	}
+	
+	
+	
+

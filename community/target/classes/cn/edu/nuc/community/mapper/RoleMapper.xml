@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.nuc.community.dao.RoleMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.nuc.community.entity.Role">
+    <id column="ROLE_ID" jdbcType="DECIMAL" property="roleId" />
+    <result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName" />
+    <result column="ROLE_STATE" jdbcType="DECIMAL" property="roleState" />
+    <result column="ROLE_DESC" jdbcType="VARCHAR" property="roleDesc" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ROLE_ID, ROLE_NAME, ROLE_STATE, ROLE_DESC
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ROLE
+    where ROLE_ID = #{roleId,jdbcType=DECIMAL}
+  </select>
+   <select id="selectRoleByName" parameterType="String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from ROLE
+    where ROLE_NAME = #{roleName,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from ROLE
+    where ROLE_ID = #{roleId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.nuc.community.entity.Role">
+    insert into ROLE (ROLE_ID, ROLE_NAME, ROLE_STATE, 
+      ROLE_DESC)
+    values (#{roleId,jdbcType=DECIMAL}, #{roleName,jdbcType=VARCHAR}, #{roleState,jdbcType=DECIMAL}, 
+      #{roleDesc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.nuc.community.entity.Role">
+    insert into ROLE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        ROLE_ID,
+      </if>
+      <if test="roleName != null">
+        ROLE_NAME,
+      </if>
+      <if test="roleState != null">
+        ROLE_STATE,
+      </if>
+      <if test="roleDesc != null">
+        ROLE_DESC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="roleId != null">
+        #{roleId,jdbcType=DECIMAL},
+      </if>
+      <if test="roleName != null">
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleState != null">
+        #{roleState,jdbcType=DECIMAL},
+      </if>
+      <if test="roleDesc != null">
+        #{roleDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.nuc.community.entity.Role">
+    update ROLE
+    <set>
+      <if test="roleName != null">
+        ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleState != null">
+        ROLE_STATE = #{roleState,jdbcType=DECIMAL},
+      </if>
+      <if test="roleDesc != null">
+        ROLE_DESC = #{roleDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ROLE_ID = #{roleId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.nuc.community.entity.Role">
+    update ROLE
+    set ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      ROLE_STATE = #{roleState,jdbcType=DECIMAL},
+      ROLE_DESC = #{roleDesc,jdbcType=VARCHAR}
+    where ROLE_ID = #{roleId,jdbcType=DECIMAL}
+  </update>
+  <select id="listRole"   resultMap="BaseResultMap">
+		SELECT * FROM (
+        <![CDATA[
+                  SELECT ROLE_ID,ROLE_NAME,ROLE_DESC,ROLE_STATE,ROWNUM AS CON  FROM ROLE
+                 
+                     WHERE ROWNUM <= #{pageSize,jdbcType=DECIMAL}
+                  )
+                WHERE CON>=#{startPos,jdbcType=DECIMAL}
+                     ]]>
+  </select>
+  <select id="selectRole"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT * FROM (
+        <![CDATA[
+                  SELECT ROLE_ID,ROLE_NAME,ROLE_DESC,ROLE_STATE,ROWNUM AS CON  FROM ROLE
+                 
+                     WHERE ROLE_ID = #{roleId,jdbcType=DECIMAL} AND ROWNUM <= #{pageSize,jdbcType=DECIMAL}
+                  )
+                WHERE CON>=#{startPos,jdbcType=DECIMAL}
+                     ]]>
+  </select>
+  <select id="getRoleCount" resultType="long">  
+  SELECT COUNT(*) FROM ROLE    
+  </select> 
+</mapper>

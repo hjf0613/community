@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.nuc.community.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.nuc.community.entity.User">
+    <id column="USER_ID" jdbcType="DECIMAL" property="userId" />
+    <result column="ROLE_ID" jdbcType="DECIMAL" property="roleId" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="USER_PASSWORD" jdbcType="VARCHAR" property="userPassword" />
+    <result column="USER_PHONE" jdbcType="VARCHAR" property="userPhone" />
+    <result column="USER_EMAIL" jdbcType="VARCHAR" property="userEmail" />
+    <result column="USER_REALNAME" jdbcType="VARCHAR" property="userRealname" />
+    <result column="USER_CARD" jdbcType="VARCHAR" property="userCard" />
+    <result column="USER_BIRTH" jdbcType="TIMESTAMP" property="userBirth" />
+    <result column="USER_ADDRESS" jdbcType="VARCHAR" property="userAddress" />
+    <result column="USER_ACCOUNT" jdbcType="DECIMAL" property="userAccount" />
+    <result column="USER_STATE" jdbcType="DECIMAL" property="userState" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    USER_ID, ROLE_ID, USER_NAME, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_REALNAME, 
+    USER_CARD, USER_BIRTH, USER_ADDRESS, USER_ACCOUNT, USER_STATE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from USERES
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </select>
+  <select id="selectByPhone" parameterType="String" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+    from USERES
+    where USER_PHONE = #{userPhone,jdbcType=VARCHAR} 
+  </select>
+  <select id="selectByName" parameterType="String" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+    from USERES
+    where USER_NAME = #{userName,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from USERES
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.nuc.community.entity.User">
+    insert into USERES (USER_ID, ROLE_ID, USER_NAME, 
+      USER_PASSWORD, USER_PHONE, USER_EMAIL, 
+      USER_REALNAME, USER_CARD, USER_BIRTH, 
+      USER_ADDRESS, USER_ACCOUNT, USER_STATE
+      )
+    values (#{userId,jdbcType=DECIMAL}, #{roleId,jdbcType=DECIMAL}, #{userName,jdbcType=VARCHAR}, 
+      #{userPassword,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, #{userEmail,jdbcType=VARCHAR}, 
+      #{userRealname,jdbcType=VARCHAR}, #{userCard,jdbcType=VARCHAR}, #{userBirth,jdbcType=TIMESTAMP}, 
+      #{userAddress,jdbcType=VARCHAR}, #{userAccount,jdbcType=DECIMAL}, #{userState,jdbcType=DECIMAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.nuc.community.entity.User">
+    insert into USERES
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="roleId != null">
+        ROLE_ID,
+      </if>
+      <if test="userName != null">
+        USER_NAME,
+      </if>
+      <if test="userPassword != null">
+        USER_PASSWORD,
+      </if>
+      <if test="userPhone != null">
+        USER_PHONE,
+      </if>
+      <if test="userEmail != null">
+        USER_EMAIL,
+      </if>
+      <if test="userRealname != null">
+        USER_REALNAME,
+      </if>
+      <if test="userCard != null">
+        USER_CARD,
+      </if>
+      <if test="userBirth != null">
+        USER_BIRTH,
+      </if>
+      <if test="userAddress != null">
+        USER_ADDRESS,
+      </if>
+      <if test="userAccount != null">
+        USER_ACCOUNT,
+      </if>
+      <if test="userState != null">
+        USER_STATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=DECIMAL},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=DECIMAL},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null">
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userRealname != null">
+        #{userRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="userCard != null">
+        #{userCard,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirth != null">
+        #{userBirth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userAddress != null">
+        #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userAccount != null">
+        #{userAccount,jdbcType=DECIMAL},
+      </if>
+      <if test="userState != null">
+        #{userState,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.nuc.community.entity.User">
+    update USERES
+    <set>
+      <if test="roleId != null">
+        ROLE_ID = #{roleId,jdbcType=DECIMAL},
+      </if>
+      <if test="userName != null">
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPassword != null">
+        USER_PASSWORD = #{userPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null">
+        USER_PHONE = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null">
+        USER_EMAIL = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userRealname != null">
+        USER_REALNAME = #{userRealname,jdbcType=VARCHAR},
+      </if>
+      <if test="userCard != null">
+        USER_CARD = #{userCard,jdbcType=VARCHAR},
+      </if>
+      <if test="userBirth != null">
+        USER_BIRTH = #{userBirth,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userAddress != null">
+        USER_ADDRESS = #{userAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="userAccount != null">
+        USER_ACCOUNT = #{userAccount,jdbcType=DECIMAL},
+      </if>
+      <if test="userState != null">
+        USER_STATE = #{userState,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.nuc.community.entity.User">
+    update USERES
+    set ROLE_ID = #{roleId,jdbcType=DECIMAL},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      USER_PASSWORD = #{userPassword,jdbcType=VARCHAR},
+      USER_PHONE = #{userPhone,jdbcType=VARCHAR},
+      USER_EMAIL = #{userEmail,jdbcType=VARCHAR},
+      USER_REALNAME = #{userRealname,jdbcType=VARCHAR},
+      USER_CARD = #{userCard,jdbcType=VARCHAR},
+      USER_BIRTH = #{userBirth,jdbcType=TIMESTAMP},
+      USER_ADDRESS = #{userAddress,jdbcType=VARCHAR},
+      USER_ACCOUNT = #{userAccount,jdbcType=DECIMAL},
+      USER_STATE = #{userState,jdbcType=DECIMAL}
+    where USER_ID = #{userId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByUserId" parameterType="cn.edu.nuc.community.entity.User">
+  	update USERES
+  	set USER_STATE = #{userState,jdbcType=DECIMAL}
+  	where USER_ID = #{userId,jdbcType=DECIMAL}
+  </update>
+   <select id="listUser"   resultMap="BaseResultMap">
+		SELECT * FROM (
+        <![CDATA[
+                  SELECT 
+                  USER_ID, ROLE_ID, USER_NAME, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_REALNAME, 
+    			  USER_CARD, USER_BIRTH, USER_ADDRESS, USER_ACCOUNT, USER_STATE,
+                  ROWNUM AS CON  FROM USERES
+                     WHERE USER_STATE=0 AND ROWNUM <= #{pageSize,jdbcType=DECIMAL}
+                  )
+                WHERE CON>=#{startPos,jdbcType=DECIMAL}
+                     ]]>
+  </select>
+  <select id="selectUser"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT * FROM (
+        <![CDATA[
+                  SELECT 
+                  USER_ID, ROLE_ID, USER_NAME, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_REALNAME, 
+    			  USER_CARD, USER_BIRTH, USER_ADDRESS, USER_ACCOUNT, USER_STATE,
+                  ROWNUM AS CON  FROM USERES
+                     WHERE USER_Id=#{userId} AND USER_STATE=0 AND ROWNUM <= #{pageSize,jdbcType=DECIMAL}
+                  )
+                WHERE CON>=#{startPos,jdbcType=DECIMAL}
+                     ]]>
+  </select>
+  <select id="listUser1"   resultMap="BaseResultMap">
+		SELECT * FROM (
+        <![CDATA[
+                  SELECT 
+                  USER_ID, ROLE_ID, USER_NAME, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_REALNAME, 
+    			  USER_CARD, USER_BIRTH, USER_ADDRESS, USER_ACCOUNT, USER_STATE,
+                  ROWNUM AS CON  FROM USERES
+                     WHERE USER_STATE=1 AND ROWNUM <= #{pageSize,jdbcType=DECIMAL}
+                  )
+                WHERE CON>=#{startPos,jdbcType=DECIMAL}
+                     ]]>
+  </select>
+  <select id="selectUser1"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT * FROM (
+        <![CDATA[
+                  SELECT 
+                  USER_ID, ROLE_ID, USER_NAME, USER_PASSWORD, USER_PHONE, USER_EMAIL, USER_REALNAME, 
+    			  USER_CARD, USER_BIRTH, USER_ADDRESS, USER_ACCOUNT, USER_STATE,
+                  ROWNUM AS CON  FROM USERES
+                     WHERE USER_Id=#{userId} AND USER_STATE=1 AND ROWNUM <= #{pageSize,jdbcType=DECIMAL}
+                  )
+                WHERE CON>=#{startPos,jdbcType=DECIMAL}
+                     ]]>
+  </select>
+  <select id="getUserCount" resultType="long">  
+  SELECT COUNT(*) FROM USERES    
+  </select> 
+</mapper>

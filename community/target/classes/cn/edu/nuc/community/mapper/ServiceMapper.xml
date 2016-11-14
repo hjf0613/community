@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.nuc.community.dao.ServiceMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.nuc.community.entity.Services">
+    <id column="SERVICE_ID" jdbcType="DECIMAL" property="serviceId" />
+    <result column="SERVICE_PID" jdbcType="DECIMAL" property="servicePid" />
+    <result column="SERVICE_NAME" jdbcType="VARCHAR" property="serviceName" />
+    <result column="SERVICE_STATE" jdbcType="DECIMAL" property="serviceState" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SERVICE_ID, SERVICE_PID, SERVICE_NAME, SERVICE_STATE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from SERVICE
+    where SERVICE_ID = #{serviceId,jdbcType=DECIMAL}
+  </select>
+  <select id="selectByServiceName" parameterType="String" resultMap="BaseResultMap">
+	   select 
+	    <include refid="Base_Column_List" />
+	    from SERVICE
+	    where SERVICE_NAME = #{serviceName,jdbcType=VARCHAR}
+  </select>
+  <select id="listService" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from SERVICE
+    where SERVICE_PID = #{servicePid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from SERVICE
+    where SERVICE_ID = #{serviceId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.nuc.community.entity.Services">
+    insert into SERVICE (SERVICE_ID, SERVICE_PID, SERVICE_NAME, 
+      SERVICE_STATE)
+    values (#{serviceId,jdbcType=DECIMAL}, #{servicePid,jdbcType=DECIMAL}, #{serviceName,jdbcType=VARCHAR}, 
+      #{serviceState,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.nuc.community.entity.Services">
+    insert into SERVICE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="serviceId != null">
+        SERVICE_ID,
+      </if>
+      <if test="servicePid != null">
+        SERVICE_PID,
+      </if>
+      <if test="serviceName != null">
+        SERVICE_NAME,
+      </if>
+      <if test="serviceState != null">
+        SERVICE_STATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="serviceId != null">
+        #{serviceId,jdbcType=DECIMAL},
+      </if>
+      <if test="servicePid != null">
+        #{servicePid,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceName != null">
+        #{serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceState != null">
+        #{serviceState,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.nuc.community.entity.Services">
+    update SERVICE
+    <set>
+      <if test="servicePid != null">
+        SERVICE_PID = #{servicePid,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceName != null">
+        SERVICE_NAME = #{serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceState != null">
+        SERVICE_STATE = #{serviceState,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where SERVICE_ID = #{serviceId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.nuc.community.entity.Services">
+    update SERVICE
+    set SERVICE_PID = #{servicePid,jdbcType=DECIMAL},
+      SERVICE_NAME = #{serviceName,jdbcType=VARCHAR},
+      SERVICE_STATE = #{serviceState,jdbcType=DECIMAL}
+    where SERVICE_ID = #{serviceId,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="listLifeService"   resultMap="BaseResultMap">
+		SELECT * FROM (
+        <![CDATA[
+                  SELECT 
+                 SERVICE_ID, SERVICE_PID, SERVICE_NAME, SERVICE_STATE,
+                  ROWNUM AS CON  FROM SERVICE
+                     WHERE SERVICE_PID=1 AND ROWNUM <= #{pageSize,jdbcType=DECIMAL}
+                  )
+                WHERE CON>=#{startPos,jdbcType=DECIMAL}
+                     ]]>
+  </select>
+  <select id="selectLifeService"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT * FROM (
+        <![CDATA[
+                  SELECT 
+                 SERVICE_ID, SERVICE_PID, SERVICE_NAME, SERVICE_STATE,
+                  ROWNUM AS CON  FROM SERVICE
+                     WHERE SERVICE_PID=1 AND SERVICE_ID=#{serviceId,jdbcType=DECIMAL} AND ROWNUM <= #{pageSize,jdbcType=DECIMAL}
+                  )
+                WHERE CON>=#{startPos,jdbcType=DECIMAL}
+                     ]]>
+  </select>
+  
+  <select id="listFinanceService"   resultMap="BaseResultMap">
+		SELECT * FROM (
+        <![CDATA[
+                  SELECT 
+                 SERVICE_ID, SERVICE_PID, SERVICE_NAME, SERVICE_STATE,
+                  ROWNUM AS CON  FROM SERVICE
+                     WHERE SERVICE_PID=2 AND ROWNUM <= #{pageSize,jdbcType=DECIMAL}
+                  )
+                WHERE CON>=#{startPos,jdbcType=DECIMAL}
+                     ]]>
+  </select>
+  <select id="selectFinanceService"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT * FROM (
+        <![CDATA[
+                  SELECT 
+                 SERVICE_ID, SERVICE_PID, SERVICE_NAME, SERVICE_STATE,
+                  ROWNUM AS CON  FROM SERVICE
+                     WHERE SERVICE_PID=2 AND SERVICE_ID=#{serviceId,jdbcType=DECIMAL} AND ROWNUM <= #{pageSize,jdbcType=DECIMAL}
+                  )
+                WHERE CON>=#{startPos,jdbcType=DECIMAL}
+                     ]]>
+  </select>
+  
+   <select id="getServiceCount1" resultType="long">  
+  SELECT COUNT(*) FROM SERVICE  WHERE SERVICE_PID=1  
+  </select>
+  <select id="getServiceCount2" resultType="long">  
+  SELECT COUNT(*) FROM SERVICE  WHERE SERVICE_PID=2  
+  </select>  
+</mapper>

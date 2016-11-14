@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.nuc.community.dao.FunctionMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.nuc.community.entity.Function">
+    <id column="FUN_ID" jdbcType="DECIMAL" property="funId" />
+    <result column="FUN_NAME" jdbcType="VARCHAR" property="funName" />
+    <result column="FUN_URL" jdbcType="VARCHAR" property="funUrl" />
+    <result column="FUN_PID" jdbcType="DECIMAL" property="funPid" />
+    <result column="FUN_STATE" jdbcType="DECIMAL" property="funState" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    FUN_ID, FUN_NAME, FUN_URL, FUN_PID, FUN_STATE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT A.FUN_ID,A.FUN_NAME,A.FUN_URL,A.FUN_PID,A.FUN_STATE,
+				        (CASE WHEN B.FUN_NAME IS NULL THEN '无' ELSE B.FUN_NAME END) AS FUN_PNAME
+				        ,ROWNUM AS CON  FROM FUNCTION A 
+                 LEFT OUTER JOIN FUNCTION B ON A.FUN_PID=B.FUN_ID
+                     WHERE A.FUN_ID = #{funId,jdbcType=DECIMAL}   
+  </select>
+  <select id="selectFunctionByName" parameterType="String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from FUNCTION
+    where FUN_NAME = #{funName,jdbcType=VARCHAR}
+  </select>
+   <select id="selectAllFunction"  resultMap="BaseResultMap">
+    select
+   <include refid="Base_Column_List" />   
+    from FUNCTION 
+  </select>
+   <select id="selectFunctionByRoleId"  resultMap="BaseResultMap">
+    select
+     A.FUN_ID,A.FUN_NAME,A.FUN_URL,A.FUN_PID,A.FUN_STATE 
+    from FUNCTION A INNER JOIN ROLESRIGHT B ON A.FUN_ID=B.FUN_ID
+     WHERE B.ROLE_ID=#{roleId,jdbcType=DECIMAL} AND A.FUN_STATE=1
+  </select>
+  <select id="selectFunByRoleId" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+	select
+	A.FUN_ID,A.FUN_NAME,A.FUN_URL,A.FUN_PID,A.FUN_STATE,
+	(CASE WHEN B.ROLERIGHT_ID IS NULL THEN '0' ELSE '1' END) AS RR  
+	from FUNCTION A LEFT OUTER JOIN ROLESRIGHT B ON A.FUN_ID=B.FUN_ID AND 
+	B.ROLE_ID=#{roleId,jdbcType=DECIMAL} 
+	WHERE A.FUN_STATE=1 
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from FUNCTION
+    where FUN_ID = #{funId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.nuc.community.entity.Function">
+    insert into FUNCTION (FUN_ID, FUN_NAME, FUN_URL, 
+      FUN_PID, FUN_STATE)
+    values (#{funId,jdbcType=DECIMAL}, #{funName,jdbcType=VARCHAR}, #{funUrl,jdbcType=VARCHAR}, 
+      #{funPid,jdbcType=DECIMAL}, #{funState,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.nuc.community.entity.Function">
+    insert into FUNCTION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="funId != null">
+        FUN_ID,
+      </if>
+      <if test="funName != null">
+        FUN_NAME,
+      </if>
+      <if test="funUrl != null">
+        FUN_URL,
+      </if>
+      <if test="funPid != null">
+        FUN_PID,
+      </if>
+      <if test="funState != null">
+        FUN_STATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="funId != null">
+        #{funId,jdbcType=DECIMAL},
+      </if>
+      <if test="funName != null">
+        #{funName,jdbcType=VARCHAR},
+      </if>
+      <if test="funUrl != null">
+        #{funUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="funPid != null">
+        #{funPid,jdbcType=DECIMAL},
+      </if>
+      <if test="funState != null">
+        #{funState,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.nuc.community.entity.Function">
+    update FUNCTION
+    <set>
+      <if test="funName != null">
+        FUN_NAME = #{funName,jdbcType=VARCHAR},
+      </if>
+      <if test="funUrl != null">
+        FUN_URL = #{funUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="funPid != null">
+        FUN_PID = #{funPid,jdbcType=DECIMAL},
+      </if>
+      <if test="funState != null">
+        FUN_STATE = #{funState,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where FUN_ID = #{funId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.nuc.community.entity.Function">
+    update FUNCTION
+    set FUN_NAME = #{funName,jdbcType=VARCHAR},
+      FUN_URL = #{funUrl,jdbcType=VARCHAR},
+      FUN_PID = #{funPid,jdbcType=DECIMAL},
+      FUN_STATE = #{funState,jdbcType=DECIMAL}
+    where FUN_ID = #{funId,jdbcType=DECIMAL}
+  </update>
+  <select id="listFunction"   resultMap="BaseResultMap">
+		SELECT * FROM (
+        <![CDATA[
+                  SELECT A.FUN_ID,A.FUN_NAME,A.FUN_URL,A.FUN_PID,A.FUN_STATE,
+				         (CASE WHEN B.FUN_NAME IS NULL THEN '无' ELSE B.FUN_NAME END) AS FUN_PNAME
+				        ,ROWNUM AS CON  FROM FUNCTION A 
+                 LEFT OUTER JOIN FUNCTION B ON A.FUN_PID=B.FUN_ID
+                     WHERE ROWNUM <= #{pageSize,jdbcType=DECIMAL}
+                  )
+                WHERE CON>=#{startPos,jdbcType=DECIMAL}
+                     ]]>
+  </select>
+  <select id="selectFunction"  parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT * FROM (
+        <![CDATA[
+                  SELECT A.FUN_ID,A.FUN_NAME,A.FUN_URL,A.FUN_PID,A.FUN_STATE,
+				         (CASE WHEN B.FUN_NAME IS NULL THEN '无' ELSE B.FUN_NAME END) AS FUN_PNAME
+				        ,ROWNUM AS CON  FROM FUNCTION A 
+                 LEFT OUTER JOIN FUNCTION B ON A.FUN_PID=B.FUN_ID
+                     WHERE A.FUN_ID = #{funId,jdbcType=DECIMAL} AND ROWNUM <= #{pageSize,jdbcType=DECIMAL}  
+                  )
+                WHERE CON>=#{startPos,jdbcType=DECIMAL}
+                     ]]>
+  </select>
+  <select id="getFunctionCount" resultType="long">  
+  SELECT COUNT(*) FROM FUNCTION    
+  </select> 
+</mapper>

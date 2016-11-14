@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.nuc.community.dao.RinfoMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.nuc.community.entity.Rinfo">
+    <id column="RINFO_ID" jdbcType="DECIMAL" property="rinfoId" />
+    <result column="LEAGUE_ID" jdbcType="DECIMAL" property="leagueId" />
+    <result column="SERVICE_ID" jdbcType="DECIMAL" property="serviceId" />
+    <result column="RINFO_DESC" jdbcType="VARCHAR" property="rinfoDesc" />
+    <result column="RINFO_PRICE" jdbcType="DECIMAL" property="rinfoPrice" />
+    <result column="RINFO_DATE" jdbcType="VARCHAR" property="rinfoDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    RINFO_ID, LEAGUE_ID, SERVICE_ID, RINFO_DESC, RINFO_PRICE, RINFO_DATE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from RINFO
+    where RINFO_ID = #{rinfoId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from RINFO
+    where RINFO_ID = #{rinfoId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="cn.edu.nuc.community.entity.Rinfo">
+    insert into RINFO (RINFO_ID, LEAGUE_ID, SERVICE_ID, 
+      RINFO_DESC, RINFO_PRICE, RINFO_DATE
+      )
+    values (#{rinfoId,jdbcType=DECIMAL}, #{leagueId,jdbcType=DECIMAL}, #{serviceId,jdbcType=DECIMAL}, 
+      #{rinfoDesc,jdbcType=VARCHAR}, #{rinfoPrice,jdbcType=DECIMAL}, #{rinfoDate,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.nuc.community.entity.Rinfo">
+    insert into RINFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rinfoId != null">
+        RINFO_ID,
+      </if>
+      <if test="leagueId != null">
+        LEAGUE_ID,
+      </if>
+      <if test="serviceId != null">
+        SERVICE_ID,
+      </if>
+      <if test="rinfoDesc != null">
+        RINFO_DESC,
+      </if>
+      <if test="rinfoPrice != null">
+        RINFO_PRICE,
+      </if>
+      <if test="rinfoDate != null">
+        RINFO_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rinfoId != null">
+        #{rinfoId,jdbcType=DECIMAL},
+      </if>
+      <if test="leagueId != null">
+        #{leagueId,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceId != null">
+        #{serviceId,jdbcType=DECIMAL},
+      </if>
+      <if test="rinfoDesc != null">
+        #{rinfoDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="rinfoPrice != null">
+        #{rinfoPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="rinfoDate != null">
+        #{rinfoDate,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.nuc.community.entity.Rinfo">
+    update RINFO
+    <set>
+      <if test="leagueId != null">
+        LEAGUE_ID = #{leagueId,jdbcType=DECIMAL},
+      </if>
+      <if test="serviceId != null">
+        SERVICE_ID = #{serviceId,jdbcType=DECIMAL},
+      </if>
+      <if test="rinfoDesc != null">
+        RINFO_DESC = #{rinfoDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="rinfoPrice != null">
+        RINFO_PRICE = #{rinfoPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="rinfoDate != null">
+        RINFO_DATE = #{rinfoDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RINFO_ID = #{rinfoId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.nuc.community.entity.Rinfo">
+    update RINFO
+    set LEAGUE_ID = #{leagueId,jdbcType=DECIMAL},
+      SERVICE_ID = #{serviceId,jdbcType=DECIMAL},
+      RINFO_DESC = #{rinfoDesc,jdbcType=VARCHAR},
+      RINFO_PRICE = #{rinfoPrice,jdbcType=DECIMAL},
+      RINFO_DATE = #{rinfoDate,jdbcType=VARCHAR}
+    where RINFO_ID = #{rinfoId,jdbcType=DECIMAL}
+  </update>
+  
+  <select id="listRinfo"   resultMap="BaseResultMap">
+		SELECT * FROM (
+        <![CDATA[
+                  SELECT 
+                  RINFO_ID, LEAGUE_ID, SERVICE_ID, RINFO_DESC, RINFO_PRICE, RINFO_DATE,
+                  ROWNUM AS CON  FROM RINFO
+                     WHERE LEAGUE_ID=#{leagueId,jdbcType=DECIMAL} AND ROWNUM <= #{pageSize,jdbcType=DECIMAL}
+                  )
+                WHERE CON>=#{startPos,jdbcType=DECIMAL}
+                     ]]>
+  </select>
+  
+  <select id="initRinfo" resultMap="RinfoResultMap">
+  	SELECT * FROM (
+        <![CDATA[
+                  SELECT 
+                  A.RINFO_ID, A.LEAGUE_ID, A.SERVICE_ID, A.RINFO_DESC, A.RINFO_PRICE, A.RINFO_DATE,
+                  B.LEAGUE_ID ab,B.LEAGUE_COMPANY,B.LEAGUE_PHONE,B.LEAGUE_EMAIL,
+                  C.SERVICE_NAME,
+                  ROWNUM AS CON  FROM RINFO A,LEAGUE B,SERVICE C
+                     WHERE A.SERVICE_ID=C.SERVICE_ID AND A.LEAGUE_ID=B.LEAGUE_ID AND A.SERVICE_ID=#{serviceId,jdbcType=DECIMAL} AND ROWNUM <= #{pageSize,jdbcType=DECIMAL}
+                  )
+                WHERE CON>=#{startPos,jdbcType=DECIMAL}
+                     ]]>
+  </select>
+  
+   <resultMap type="cn.edu.nuc.community.entity.Rinfo" id="RinfoResultMap">
+    	<id column="RINFO_ID" jdbcType="DECIMAL" property="rinfoId" />
+	    <result column="LEAGUE_ID" jdbcType="DECIMAL" property="leagueId" />
+	    <result column="SERVICE_ID" jdbcType="DECIMAL" property="serviceId" />
+	    <result column="RINFO_DESC" jdbcType="VARCHAR" property="rinfoDesc" />
+	    <result column="RINFO_PRICE" jdbcType="DECIMAL" property="rinfoPrice" />
+	    <result column="RINFO_DATE" jdbcType="VARCHAR" property="rinfoDate" />
+    	<association property="league" javaType="cn.edu.nuc.community.entity.League">
+    		<id column="LEAGUE_ID" jdbcType="DECIMAL" property="leagueId" />
+		    <result column="ROLE_ID" jdbcType="DECIMAL" property="roleId" />
+		    <result column="LEAGUE_NAME" jdbcType="VARCHAR" property="leagueName" />
+		    <result column="LEAGUE_PASSWORD" jdbcType="VARCHAR" property="leaguePassword" />
+		    <result column="LEAGUE_COMPANY" jdbcType="VARCHAR" property="leagueCompany" />
+		    <result column="LEAGUE_PHONE" jdbcType="VARCHAR" property="leaguePhone" />
+		    <result column="LEAGUE_EMAIL" jdbcType="VARCHAR" property="leagueEmail" />
+		    <result column="LEAGUE_STATE" jdbcType="DECIMAL" property="leagueState" />
+    	</association>
+    	<association property="service" javaType="cn.edu.nuc.community.entity.Services">
+    		 <id column="SERVICE_ID" jdbcType="DECIMAL" property="serviceId" />
+		    <result column="SERVICE_PID" jdbcType="DECIMAL" property="servicePid" />
+		    <result column="SERVICE_NAME" jdbcType="VARCHAR" property="serviceName" />
+		    <result column="SERVICE_STATE" jdbcType="DECIMAL" property="serviceState" />
+    	</association>
+    	
+    </resultMap>
+  
+  <select id="getRinfoCount" resultType="long">  
+  SELECT COUNT(*) FROM RINFO   
+  </select>
+  <select id="getRinfoCountByLeagueId" resultType="long">
+  SELECT COUNT(*) FROM RINFO WHERE LEAGUE_ID=#{leagueId,jdbcType=DECIMAL}
+  </select>
+  <select id="getRinfoCountByServiceId" resultType="long">
+  SELECT COUNT(*) FROM RINFO WHERE SERVICE_ID=#{serviceId,jdbcType=DECIMAL}
+  </select>
+</mapper>
